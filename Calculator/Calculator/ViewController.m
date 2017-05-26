@@ -2,13 +2,26 @@
 #import "AboutViewController.h"
 #import "LicenseViewController.h"
 #import "CalculatorModel.h"
+#import "Constants.h"
 
-static NSString *const ZERO_VALUE = @"0";
-static NSString *const DOT_VALUE = @".";
-static NSString *const EQUAL_OPERATION = @"=";
-static NSString *const ADD_OPERATION = @"+";
+@interface ViewController () <CalculatorModelDelegate>
 
-@interface ViewController ()
+@property (retain, nonatomic) CalculatorModel *model;
+
+@property (retain, nonatomic) IBOutlet UILabel *displayLabel;
+
+@property (retain, nonatomic) IBOutletCollection(UIButton) NSArray *digitButtons;
+@property (retain, nonatomic) IBOutletCollection(UIButton) NSArray *unaryOperationButtons;
+@property (retain, nonatomic) IBOutletCollection(UIButton) NSArray *binaryOperationButtons;
+
+@property (retain, nonatomic) IBOutlet UIButton *dotButton;
+
+@property (retain, nonatomic) IBOutlet UIBarButtonItem *aboutBarButtonItem;
+@property (retain, nonatomic) IBOutlet UIButton *licenseButton;
+
+@property (assign, nonatomic, getter=isFloatNumber) BOOL floatNumber;
+@property (assign, nonatomic, getter=isNewNumber) BOOL newNumber;
+@property (assign, nonatomic, getter=isPrevAction) BOOL prevAction;
 
 @end
 
@@ -17,9 +30,8 @@ static NSString *const ADD_OPERATION = @"+";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self clearButtonTapped:nil];
-    
     self.model = [[CalculatorModel alloc] init];
+    self.model.delegate = self;
     
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRight:)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
@@ -27,74 +39,71 @@ static NSString *const ADD_OPERATION = @"+";
     [swipeRight release];
 }
 
-#pragma mark - buttons 
+#pragma mark - digit buttons
 
-- (IBAction)digitCollectionButtonTapped:(id)sender {
+- (IBAction)digitButtonTapped:(id)sender {
     if (self.isNewNumber) {
-        self.leftOperand = [self.displayLabel.text doubleValue];
         self.displayLabel.text = ZERO_VALUE;
         self.floatNumber = NO;
         self.newNumber = NO;
+        self.model.expression = YES;
     }
+    self.prevAction = NO;
     NSString *newDigit = [sender currentTitle];
     self.displayLabel.text = [self.displayLabel.text isEqualToString:ZERO_VALUE] ? newDigit : [NSString stringWithFormat:@"%@%@", self.displayLabel.text, newDigit];
 }
 
-- (IBAction)unaryOperationCollectionButtonTapped:(id)sender {
-    NSString *unaryOperation = [sender currentTitle];
-    self.leftOperand = [self.model executeUnaryOperand:[self.displayLabel.text doubleValue]
-                                             Operation:unaryOperation];
-    self.displayLabel.text = [NSString stringWithFormat:@"%.3f", self.leftOperand];
-    self.floatNumber = YES;
-    self.newNumber = YES;
-    self.rightOperand = 0;
-    self.operation = nil;
-}
+#pragma mark - operation button
 
-- (IBAction)binaryOperationCollectionButtonTapped:(id)sender {
-    NSString *binaryOperation = [sender currentTitle];
-    if ([self.operation length] == 0) {
-        self.leftOperand = 0;
-        self.operation = ADD_OPERATION;
-    }
-    if (!self.isNewNumber) self.rightOperand = [self.displayLabel.text doubleValue];
-    if ([binaryOperation isEqualToString:EQUAL_OPERATION] || !self.isNewNumber) {
-        self.leftOperand = [self.model executeBinaryLeftOperand:self.leftOperand
-                                                      Operation:self.operation
-                                                   RightOperand:self.rightOperand];
-        self.displayLabel.text = [NSString stringWithFormat:@"%.3f", self.leftOperand];
-    }
-    if (![binaryOperation isEqualToString:EQUAL_OPERATION]) self.operation = binaryOperation;
-    self.floatNumber = YES;
-    self.newNumber = YES;
-}
-
-- (IBAction)clearButtonTapped:(id)sender {
-    self.displayLabel.text = ZERO_VALUE;
+- (IBAction)operationButtonTapped:(id)sender {
+    NSString *operation = [sender currentTitle];
+    if (!self.isPrevAction) self.model.rightOperand = [self.displayLabel.text floatValue];
+    [self.model executeUnaryOperation:operation];
+    [self.model executeBinaryOperation:operation];
     self.floatNumber = NO;
     self.newNumber = YES;
-    self.leftOperand = 0;
-    self.rightOperand = 0;
-    self.operation = nil;
+    self.prevAction = YES;
 }
 
+#pragma mark - dot button
+
 - (IBAction)dotButtonTapped:(id)sender {
-    if (!self.isFloatNumber) {
+    if (!self.isFloatNumber || self.isNewNumber) {
+        if (self.isNewNumber) {
+            self.displayLabel.text = ZERO_VALUE;
+            self.newNumber = NO;
+        }
         self.floatNumber = YES;
-        NSString *newDigit = [sender titleForState:UIControlStateNormal];
+        NSString *newDigit = [sender currentTitle];
         self.displayLabel.text = [NSString stringWithFormat:@"%@%@", self.displayLabel.text, newDigit];
     }
 }
 
-# pragma mark - swipe label to right
+#pragma mark - update display value
 
-- (void)swipeRight:(UISwipeGestureRecognizer*)gestureRecognizer {
-    NSString *prevElement = [self.displayLabel.text substringWithRange:NSMakeRange(self.displayLabel.text.length - 1, 1)];
-    if ([prevElement isEqualToString:DOT_VALUE]) self.floatNumber = NO;
-    self.displayLabel.text = self.displayLabel.text.length > 1 ? [self.displayLabel.text substringToIndex:self.displayLabel.text.length - 1] : ZERO_VALUE ;
+- (void)calculatorModelDidUpdatedValue:(double)value {
+    NSNumberFormatter *formatter = [[[NSNumberFormatter alloc] init] autorelease];
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [formatter setMinimumFractionDigits:0];
+    [formatter setMaximumFractionDigits:6];
+    [formatter setAlwaysShowsDecimalSeparator:NO];
+    NSString *numberFromString = [formatter stringFromNumber:[NSNumber numberWithFloat:value]];
+    self.displayLabel.text = [NSString stringWithFormat:@"%@", numberFromString];
 }
 
-# pragma mark - information buttons
+- (void)calculatorModelDidWrongOperation:(NSString *)error {
+    self.displayLabel.text = [NSString stringWithFormat:@"%@", error];
+}
+
+#pragma mark - swipe label to right
+
+- (void)swipeRight:(UISwipeGestureRecognizer *)gestureRecognizer {
+    NSString *prevElement = [self.displayLabel.text substringWithRange:NSMakeRange(self.displayLabel.text.length - 1, 1)];
+    if ([prevElement isEqualToString:DOT_VALUE]) self.floatNumber = NO;
+    self.displayLabel.text = self.displayLabel.text.length > 1 ? [self.displayLabel.text substringToIndex:self.displayLabel.text.length - 1] : ZERO_VALUE;
+}
+
+#pragma mark - information buttons
 
 - (IBAction)aboutButtonTapped:(id)sender {
     AboutViewController *aboutController = [[AboutViewController alloc] init];
@@ -109,15 +118,14 @@ static NSString *const ADD_OPERATION = @"+";
 }
 
 - (void)dealloc {
+    [_model release];
     [_displayLabel release];
-    [_digitCollectionButtons release];
-    [_unaryOperationCollectionButtons release];
-    [_binaryOperationCollectionButtons release];
-    [_clearButton release];
+    [_digitButtons release];
+    [_unaryOperationButtons release];
+    [_binaryOperationButtons release];
     [_dotButton release];
     [_aboutBarButtonItem release];
     [_licenseButton release];
-    [_operation release];
     [super dealloc];
 }
 

@@ -13,22 +13,16 @@
 		FA45A3261EC708AE00CF8F7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA45A3241EC708AE00CF8F7B /* Main.storyboard */; };
 		FA45A3281EC708AE00CF8F7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA45A3271EC708AE00CF8F7B /* Assets.xcassets */; };
 		FA45A32B1EC708AE00CF8F7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA45A3291EC708AE00CF8F7B /* LaunchScreen.storyboard */; };
+		FA5C78991ED57CEB00BDF11B /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = FA5C78981ED57CEB00BDF11B /* Constants.m */; };
 		FA765E221ECD0F030026FA19 /* LicenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA765E201ECD0F030026FA19 /* LicenseViewController.m */; };
 		FA765E231ECD0F030026FA19 /* LicenseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA765E211ECD0F030026FA19 /* LicenseViewController.xib */; };
 		FA765E291ECD11630026FA19 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA765E271ECD11630026FA19 /* AboutViewController.m */; };
 		FA765E2A1ECD11630026FA19 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA765E281ECD11630026FA19 /* AboutViewController.xib */; };
 		FACE287A1ECDBA140087EBAA /* CalculatorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FACE28791ECDBA140087EBAA /* CalculatorModel.m */; };
-		FACE287E1ECDBEE70087EBAA /* SquareRootOperation.h in Sources */ = {isa = PBXBuildFile; fileRef = FACE287D1ECDBEE60087EBAA /* SquareRootOperation.h */; };
-		FACE28821ECDC1DD0087EBAA /* AdditionOperation.h in Sources */ = {isa = PBXBuildFile; fileRef = FACE28811ECDC1DD0087EBAA /* AdditionOperation.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		FA3D23C71ECF9ACA0065328A /* GetValueOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetValueOperation.h; sourceTree = "<group>"; };
-		FA3D23C81ECF9B260065328A /* ChangeSignOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangeSignOperation.h; sourceTree = "<group>"; };
-		FA3D23C91ECF9C3B0065328A /* SubstractOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SubstractOperation.h; sourceTree = "<group>"; };
-		FA3D23CA1ECF9C590065328A /* DivideOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DivideOperation.h; sourceTree = "<group>"; };
-		FA3D23CB1ECF9C7E0065328A /* MultiplyOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultiplyOperation.h; sourceTree = "<group>"; };
-		FA3D23CC1ECF9C9D0065328A /* ModOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModOperation.h; sourceTree = "<group>"; };
+		FA203F371ED89F49005A87BA /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		FA45A3181EC708AE00CF8F7B /* Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA45A31C1EC708AE00CF8F7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FA45A31E1EC708AE00CF8F7B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -39,6 +33,7 @@
 		FA45A3271EC708AE00CF8F7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA45A32A1EC708AE00CF8F7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FA45A32C1EC708AE00CF8F7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA5C78981ED57CEB00BDF11B /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		FA765E1F1ECD0F030026FA19 /* LicenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LicenseViewController.h; sourceTree = "<group>"; };
 		FA765E201ECD0F030026FA19 /* LicenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseViewController.m; sourceTree = "<group>"; };
 		FA765E211ECD0F030026FA19 /* LicenseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LicenseViewController.xib; sourceTree = "<group>"; };
@@ -47,10 +42,8 @@
 		FA765E281ECD11630026FA19 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		FACE28781ECDBA140087EBAA /* CalculatorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalculatorModel.h; sourceTree = "<group>"; };
 		FACE28791ECDBA140087EBAA /* CalculatorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalculatorModel.m; sourceTree = "<group>"; };
-		FACE287C1ECDBEE60087EBAA /* UnaryOperations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnaryOperations.h; sourceTree = "<group>"; };
-		FACE287D1ECDBEE60087EBAA /* SquareRootOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SquareRootOperation.h; sourceTree = "<group>"; };
-		FACE28811ECDC1DD0087EBAA /* AdditionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdditionOperation.h; sourceTree = "<group>"; };
-		FACE28831ECDE9F50087EBAA /* BinaryOperations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BinaryOperations.h; sourceTree = "<group>"; };
+		FACE287C1ECDBEE60087EBAA /* UnaryOperations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnaryOperations.m; sourceTree = "<group>"; };
+		FACE28831ECDE9F50087EBAA /* BinaryOperations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BinaryOperations.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +57,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA203F381ED89FF5005A87BA /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				FA5C78981ED57CEB00BDF11B /* Constants.m */,
+				FA203F371ED89F49005A87BA /* Constants.h */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
 		FA45A30F1EC708AD00CF8F7B = {
 			isa = PBXGroup;
 			children = (
@@ -83,8 +85,8 @@
 		FA45A31A1EC708AE00CF8F7B /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
-				FACE287F1ECDC1C80087EBAA /* binaryOperations */,
-				FACE287B1ECDBECE0087EBAA /* unaryOperations */,
+				FA203F381ED89FF5005A87BA /* Constants */,
+				FACE287B1ECDBECE0087EBAA /* Operations */,
 				FACE28771ECDB5EF0087EBAA /* Model */,
 				FA765E251ECD11530026FA19 /* About */,
 				FA765E1E1ECD0EE20026FA19 /* License */,
@@ -138,28 +140,13 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
-		FACE287B1ECDBECE0087EBAA /* unaryOperations */ = {
+		FACE287B1ECDBECE0087EBAA /* Operations */ = {
 			isa = PBXGroup;
 			children = (
-				FACE287C1ECDBEE60087EBAA /* UnaryOperations.h */,
-				FACE287D1ECDBEE60087EBAA /* SquareRootOperation.h */,
-				FA3D23C81ECF9B260065328A /* ChangeSignOperation.h */,
+				FACE28831ECDE9F50087EBAA /* BinaryOperations.m */,
+				FACE287C1ECDBEE60087EBAA /* UnaryOperations.m */,
 			);
-			name = unaryOperations;
-			sourceTree = "<group>";
-		};
-		FACE287F1ECDC1C80087EBAA /* binaryOperations */ = {
-			isa = PBXGroup;
-			children = (
-				FACE28811ECDC1DD0087EBAA /* AdditionOperation.h */,
-				FACE28831ECDE9F50087EBAA /* BinaryOperations.h */,
-				FA3D23C91ECF9C3B0065328A /* SubstractOperation.h */,
-				FA3D23CA1ECF9C590065328A /* DivideOperation.h */,
-				FA3D23CB1ECF9C7E0065328A /* MultiplyOperation.h */,
-				FA3D23CC1ECF9C9D0065328A /* ModOperation.h */,
-				FA3D23C71ECF9ACA0065328A /* GetValueOperation.h */,
-			);
-			name = binaryOperations;
+			name = Operations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,8 +228,7 @@
 				FA45A3231EC708AE00CF8F7B /* ViewController.m in Sources */,
 				FACE287A1ECDBA140087EBAA /* CalculatorModel.m in Sources */,
 				FA45A3201EC708AE00CF8F7B /* AppDelegate.m in Sources */,
-				FACE287E1ECDBEE70087EBAA /* SquareRootOperation.h in Sources */,
-				FACE28821ECDC1DD0087EBAA /* AdditionOperation.h in Sources */,
+				FA5C78991ED57CEB00BDF11B /* Constants.m in Sources */,
 				FA45A31D1EC708AE00CF8F7B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,16 +1,25 @@
 #import <Foundation/Foundation.h>
+#import "Constants.h"
+
+@class CalculatorModel;
+
+@protocol CalculatorModelDelegate <NSObject>
+
+- (void)calculatorModelDidUpdatedValue:(double) value;
+- (void)calculatorModelDidWrongOperation:(NSString *) error;
+
+@end
 
 @interface CalculatorModel : NSObject
 
-@property (retain, nonatomic) NSDictionary *unaryOperations;
-@property (retain, nonatomic) NSDictionary *binaryOperations;
+@property (assign, nonatomic) double leftOperand;
+@property (assign, nonatomic) double rightOperand;
+@property (retain, nonatomic) NSString *prevOperation;
+@property (assign, nonatomic, getter=isExpression) BOOL expression;
 
-- (id)init;
+@property (assign, nonatomic) id<CalculatorModelDelegate> delegate;
 
-- (double)executeUnaryOperand:(double)operand
-                    Operation:(NSString *)operation;
-- (double)executeBinaryLeftOperand:(double)leftOperand
-                         Operation:(NSString *)operation
-                      RightOperand:(double)rightOperand;
+- (void)executeUnaryOperation:(NSString *)operation;
+- (void)executeBinaryOperation:(NSString *)operation;
 
 @end

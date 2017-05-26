@@ -1,63 +1,86 @@
 #import "CalculatorModel.h"
-#import "UnaryOperations.h"
-#import "BinaryOperations.h"
-#import "AdditionOperation.h"
-#import "SubstractOperation.h"
-#import "DivideOperation.h"
-#import "MultiplyOperation.h"
-#import "ModOperation.h"
-#import "SquareRootOperation.h"
-#import "ChangeSignOperation.h"
-#import "GetValueOperation.h"
+#import "UnaryOperations.m"
+#import "BinaryOperations.m"
+
+@interface CalculatorModel ()
+
+@property (retain, nonatomic) NSDictionary *unaryOperations;
+@property (retain, nonatomic) NSDictionary *binaryOperations;
+
+@end
 
 @implementation CalculatorModel
 
-#pragma mark - constructor
+@synthesize unaryOperations = _unaryOperations;
+@synthesize binaryOperations = _binaryOperations;
 
-- (id)init {
+#pragma mark - constructor-methods
+
+- (instancetype)init {
     if (self = [super init]) {
+        // так и не разобрался почему через _unaryOperation не работает
         self.unaryOperations = @{
-                         @"sqrt": [[SquareRootOperation alloc] init],
-                         @"+/-": [[ChangeSignOperation alloc] init]
+                         @"√": @"squareRootOperation",
+                         @"+/-": @"changeSignOperation",
+                         @"C": @"clearOperation"
                          };
         self.binaryOperations = @{
-                         @"+": [[AdditionOperation alloc] init],
-                         @"-": [[SubstractOperation alloc] init],
-                         @"/": [[DivideOperation alloc] init],
-                         @"x": [[MultiplyOperation alloc] init],
-                         @"%": [[ModOperation alloc] init],
-                         @"=": [[GetValueOperation alloc] init]
+                         @"+": @"additionOperation",
+                         @"-": @"substractOperation",
+                         @"/": @"divideOperation",
+                         @"x": @"multiplyOperation",
+                         @"%": @"modOperation",
+                         @"=": @"getValueOperation",
                          };
+        _prevOperation = ADD_OPERATION;
+        _expression = YES;
     }
     return self;
 }
 
 #pragma mark - execute unary operations
 
-- (double)executeUnaryOperand:(double)operand
-                    Operation:(NSString *)operation {
-    id<UnaryOperations> operationType = _unaryOperations[operation];
-    if ([operationType respondsToSelector:@selector(executeOperand:)]) {
-        return [operationType executeOperand:operand];
-    }
-    return 0;
+- (void)executeUnaryOperation:(NSString *)operation {
+    if (!self.unaryOperations[operation]) return;
+    [self executeOperation:self.unaryOperations[operation]];
 }
 
 #pragma mark - execute binary operations
 
-- (double)executeBinaryLeftOperand:(double)leftOperand
-                         Operation:(NSString *)operation
-                      RightOperand:(double)rightOperand {
-    id<BinaryOperations> operationType = _binaryOperations[operation];
-    if ([operationType respondsToSelector:@selector(executeLeft:Right:)]) {
-        return [operationType executeLeft:leftOperand Right:rightOperand];
+- (void)executeBinaryOperation:(NSString *)operation {
+    if (!self.binaryOperations[operation]) return;
+    if ([operation isEqualToString:EQUAL_OPERATION] || self.isExpression) {
+        [self executeOperation:self.binaryOperations[self.prevOperation]];
+        if (![operation isEqualToString:EQUAL_OPERATION]) self.prevOperation = operation;
+        self.expression = NO;
+    } else {
+        self.prevOperation = operation;
     }
-    return 0;
+}
+
+#pragma mark - operations factory
+
+- (void)executeOperation:(NSString *)operation {
+    SEL operationSelector = NSSelectorFromString(operation);
+    [self performSelector:operationSelector];
+}
+
+#pragma mark - setters with delegate
+
+- (void)setLeftOperand:(double)leftOperand {
+    _leftOperand = leftOperand;
+    [self.delegate calculatorModelDidUpdatedValue:self.leftOperand];
+}
+
+- (void)setRightOperand:(double)rightOperand {
+    _rightOperand = rightOperand;
+    [self.delegate calculatorModelDidUpdatedValue:self.rightOperand];
 }
 
 - (void)dealloc {
     [_unaryOperations release];
     [_binaryOperations release];
+    [_prevOperation release];
     [super dealloc];
 }
 
